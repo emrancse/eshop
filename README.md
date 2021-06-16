@@ -7,7 +7,7 @@
 eshop is a fully ecomerce management system with frontend and backend. It has some features such as:
 
 ## Frontend features
----
+
 
 - Hear menu - Customer login/sign up, tracking order, localization (enlish/bangla)
 - Categories with subcategories
@@ -19,7 +19,7 @@ eshop is a fully ecomerce management system with frontend and backend. It has so
 
 
 ## Backend features
----
+
 - Admin Management
 - Category Management
 - Product Management
@@ -35,21 +35,21 @@ eshop is a fully ecomerce management system with frontend and backend. It has so
 
 
 ## Packages Used
----
-- 
+
+- laravel debugbar
 - 
 - 
 - 
 
 ## Installation instructions
----
+
 - clone the repository
 - run `composer install`
 - run `cp .env.example .env`
 - run `php artisan migrate --seed`
 
 ## Contributions guideline
----
+
 - fork the repo
 - clone the repo locally
 - 
@@ -57,6 +57,6 @@ eshop is a fully ecomerce management system with frontend and backend. It has so
 
 
 ## Contributors
----
+
 Emran Hosen (emranict@gmail.com)
 
