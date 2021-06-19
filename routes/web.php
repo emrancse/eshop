@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,14 @@ use App\Http\Controllers\Backend\DashboardController;
 |
 */
 
-Route::get('/',[DashboardController::class,'index'])->name('dashboard.index');
+Route::get('admin/dashboard',[DashboardController::class,'index'])->name('dashboard.index');
+
+Route::get('/users', [UserController::class,'index'])->name('user.index');
+Route::get('/users/create',[UserController::class,'create'])->name('user.create');
+Route::post('/user/store',[UserController::class,'store'])->name('user.store');
+
+
+
 
 
 
