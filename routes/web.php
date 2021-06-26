@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\Auth\AuthController;
+use App\Http\Controllers\Backend\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,15 +16,29 @@ use App\Http\Controllers\Backend\UserController;
 |
 */
 
-Route::get('admin/dashboard',[DashboardController::class,'index'])->name('dashboard.index');
-
-Route::get('/users', [UserController::class,'index'])->name('user.index');
-Route::get('/users/create',[UserController::class,'create'])->name('user.create');
-Route::post('/user/store',[UserController::class,'store'])->name('user.store');
+Route::group(['prefix' => 'admin'], function () {
 
 
+    // Auth routes
+    Route::get('/', [AuthController::class, 'loginForm'])->name('admin.login');
+    Route::post('/', [AuthController::class, 'loginProcess'])->name('admin.loginProcess');
+    Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 
+    // Dashboard routes
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 
+    // users routes
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
 
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/', [UserController::class, 'store'])->name('store');
+        Route::get('/{user}',[UserController::class,'show'])->name('show');
+        Route::get('/edit/{user}',[UserController::class,'edit'])->name('edit');
+        Route::put('/update/{user}',[UserController::class,'update'])->name('update');
+        Route::delete('/{user}',[UserController::class,'destroy'])->name('destroy');
+
+    });
+});

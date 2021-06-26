@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Backend;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserValidationRequest;
 
 class UserController extends Controller
 {
     public function index()
     {
         $users = User::all();
-        // dd($users);
-
         return view('backend.user.index',compact('users'));
 
     }
@@ -22,18 +21,46 @@ class UserController extends Controller
         return  view('backend.user.create');
     }
 
-    public function store(Request $request)
+    public function store(UserValidationRequest $request)
     {
-        $data = [
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'email' => trim(strtolower($request->input('email'))),
-            'password' => bcrypt($request->input('password')),
-            'role' => $request->input('role'),
-        ];
+
+        $data = $request->validated();
 
         $insert = User::create($data);
-        return back();
+
+        return redirect()->route('users.index');
 
     }
+
+    public function show(User $user)
+    {
+        return view('backend.user.show',compact('user'));
+    }
+
+    public function edit(User $user)
+    {
+        return view('backend.user.edit',compact('user'));
+    }
+
+    public function update(User $user, UserValidationRequest $request)
+    {
+        $data = $request->validated();
+
+        $user->update($data);
+
+        session()->flash('message','User updated successfully');
+        
+        return redirect()->route('users.index');
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        session()->flash('message','deleted successfully');
+
+        return back();
+    }
+
+
 }
